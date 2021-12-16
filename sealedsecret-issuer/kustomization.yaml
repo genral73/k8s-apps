@@ -1,0 +1,10 @@
+commonLabels:
+  environment: production
+  app: sealedsecret-issuer
+namespace: sealedsecret-issuer
+resources:
+  - namespace.yaml
+  - secret.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

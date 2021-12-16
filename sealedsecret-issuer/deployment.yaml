@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sealedsecret-issuer
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sealedsecret-issuer
+  template:
+    metadata:
+      labels:
+        app: sealedsecret-issuer
+    spec:
+      containers:
+        - name: sealedsecret-issuer
+          image: genral73/sealedsecret-issuer:v0.16.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: sealedsecret-certificate
+              mountPath: /kubeseal/cert.pem
+              subPath: cert.pem
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: "50Mi"
+            limits:
+              cpu: "0.25"
+              memory: "100Mi"
+      volumes:
+        - name: sealedsecret-certificate
+          secret:
+            secretName: sealedsecret-certificate
